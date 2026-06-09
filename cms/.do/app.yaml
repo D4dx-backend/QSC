@@ -1,0 +1,21 @@
+name: eventhex-saas-cms
+services:
+  - name: web
+    git:
+      branch: main
+      repo_clone_url: ${REPO_URL}
+    build_command: npm install
+    run_command: npm start
+    envs:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: "8080"
+    http_port: 8080
+    instance_count: 1
+    instance_size_slug: basic-xxs
+    routes:
+      - path: /
+    health_check:
+      http_path: /
+      initial_delay_seconds: 20 

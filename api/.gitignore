@@ -1,0 +1,9 @@
+.vercel
+/node_modules
+/config/.env
+config/.env
+.env
+/uploads/*
+# Migration report artifacts (timestamped per-run outputs)
+scripts/reports/
+

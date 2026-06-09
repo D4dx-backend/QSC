@@ -1,0 +1,113 @@
+{
+  "cursorRules": {
+    "general": {
+      "fileNaming": {
+        "components": "PascalCase.jsx",
+        "hooks": "use[Name].js",
+        "contexts": "[Name]Context.js",
+        "utils": "camelCase.js"
+      },
+      "variableNaming": {
+        "style": "camelCase",
+        "constants": "UPPER_SNAKE_CASE",
+        "components": "PascalCase",
+        "hooks": "usePrefix"
+      }
+    },
+    "frontend": {
+      "components": {
+        "naming": "PascalCase",
+        "structure": "One component per file",
+        "props": "Clearly document all props with PropTypes or TypeScript"
+      },
+      "styling": {
+        "css": "Use styled-components or Tailwind CSS",
+        "naming": "Use BEM naming convention for class names",
+        "responsiveness": "Design mobile-first and ensure all components work on all screen sizes"
+      },
+      "state_management": {
+        "redux": "Use Redux for global state with proper actions and reducers",
+        "context": "Use Context API for component-level state",
+        "local": "Use useState/useReducer for component-local state",
+        "query": "Use React Query for server state management"
+      },
+      "performance": {
+        "memoization": "Use React.memo, useMemo, and useCallback to prevent unnecessary renders",
+        "code_splitting": "Implement code splitting for larger components",
+        "lazy_loading": "Implement lazy loading for images and components"
+      },
+      "data_fetching": {
+        "structure": "IMPORTANT: ALL API calls MUST use centralized API methods in src/backend/api/index.js - Do not create new fetch methods",
+        "methods": {
+          "getData": "For GET requests with recursive query parameter handling",
+          "getCustomData": "For GET requests to external APIs with custom URLs",
+          "postData": "For POST requests with FormData support and automatic file detection",
+          "postDataCustom": "For POST requests to external APIs with custom URLs",
+          "putData": "For PUT requests with FormData support and handling of nested objects",
+          "deleteData": "For DELETE requests with proper query string formatting",
+          "bulkUploadData": "For file uploads with progress tracking and cancellation support"
+        },
+        "usage": "Import these functions directly from src/backend/api/index.js and use them for all API communication",
+        "error_handling": "All functions provide consistent error handling with status and customMessage properties",
+        "authentication": "Token management with GetAccessToken and SetAccessToken happens automatically in these methods"
+      },
+      "routing": {
+        "structure": "Use React Router with organized route definitions",
+        "protection": "Implement route protection with custom route components",
+        "params": "Consistently use URL parameters for resource identification"
+      }
+    },
+    "libraries": {
+      "ui": {
+        "components": "Use Lucide React for icons, React-PDF for PDF handling",
+        "forms": "Use React-Quill for rich text editing",
+        "charts": "Use Recharts for data visualization"
+      },
+      "data": {
+        "dates": "Use date-fns or moment for date manipulation",
+        "state": "Use Redux with Redux-Thunk for asynchronous actions",
+        "api": "Use Axios for API requests with consistent error handling",
+        "server_state": "Use React Query for server state management"
+      },
+      "utilities": {
+        "unique_ids": "Use UUID or nanoid for generating unique identifiers",
+        "internationalization": "Use i18next for translations"
+      }
+    },
+    "CODE_MODIFICATION": {
+      "preserve_existing": {
+        "code": "Don't delete existing code unless 100% required",
+        "comment": "Preserve existing code where possible, only remove if absolutely necessary"
+      },
+      "maintain_functionality": {
+        "existing": "All existing functionality must be preserved when adding new features",
+        "compatibility": "New changes must work alongside existing code, not replace it",
+        "refactoring": "When refactoring, ensure all original behaviors are maintained"
+      },
+      "change_strategy": {
+        "extend": "Prefer extending existing code over replacing it",
+        "augment": "Add new capabilities while preserving existing ones",
+        "fallback": "Provide backward compatibility for existing implementation"
+      },
+      "documentation": {
+        "changes": "Document all changes to existing functionality",
+        "rationale": "Explain why code was modified or removed when necessary"
+      }
+    },
+    "clean_code": {
+      "simplicity": "Strive for the simplest solution that works.",
+      "refactor": "Regularly refactor code for readability and maintainability.",
+      "avoid_complexity": "Avoid over-engineering; keep the codebase as simple as possible."
+    },
+    "code_comments": {
+      "inline_comments": "Use inline comments to explain complex logic.",
+      "function_headers": "Include headers for functions explaining their purpose and usage.",
+      "todo_comments": "Mark incomplete features or potential improvements with 'TODO'."
+    },
+    "code_style": {
+      "consistent_style": "Follow existing coding standards and style guides.",
+      "naming_conventions": "Use meaningful variable and function names; avoid abbreviations.",
+      "formatting": "Ensure code is properly formatted according to style guidelines."
+    }
+  }
+}
