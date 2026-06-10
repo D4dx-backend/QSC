@@ -13,6 +13,10 @@ dotenv.config({ path: "./config/.env" });
 
 const app = express();
 
+// Trust the DigitalOcean App Platform / load balancer proxy so that
+// secure cookies and req.protocol work correctly behind HTTPS termination.
+app.set("trust proxy", 1);
+
 app.use(
   session({
     secret: "This_is_my_secret_key",
@@ -22,7 +26,8 @@ app.use(
   })
 );
 
-const allowedOrigins = [
+// Default allowed origins (fallback when ALLOWED_ORIGINS env var is not set)
+const defaultAllowedOrigins = [
   "https://qsc-cms-w9eob.ondigitalocean.app",
   "https://qsc-cms-new-wbgek.ondigitalocean.app",
   "http://localhost:3000",
@@ -40,7 +45,6 @@ const allowedOrigins = [
   "https://eventhex-cms-a53a3.ondigitalocean.app",
   "https://event-manager.syd1.cdn.digitaloceanspaces.com",
   "https://d10hztoo0gcg1m.cloudfront.net",
-  "https://eventhex-cms-a53a3.ondigitalocean.app",
   "https://admin.eventhex.co",
   "http://192.168.1.5:3000",
   "https://eventhex.datahex.co",
@@ -49,24 +53,34 @@ const allowedOrigins = [
   "http://event.local:3000",
   "http://media.local:3000",
   "http://edunext.mediaoneonline.com",
-  "https://d10hztoo0gcg1m.cloudfront.net",
   "https://qsc-api-462u2.ondigitalocean.app",
   "https://quranstudycentre.com",
+  "https://qsc-reg.netlify.app",
 ];
+
+// Read additional/override origins from env (comma-separated), e.g.
+// ALLOWED_ORIGINS=https://qsc-reg.netlify.app,https://example.com
+const envAllowedOrigins = (process.env.ALLOWED_ORIGINS || "")
+  .split(",")
+  .map((o) => o.trim())
+  .filter(Boolean);
+
+// Merge env-provided origins with defaults, removing duplicates
+const allowedOrigins = [...new Set([...defaultAllowedOrigins, ...envAllowedOrigins])];
 
 //cors policy
 app.use(
   cors({
     origin: function (origin, callback) {
       // allow requests with no origin (like mobile apps or curl requests)
-      console.log(origin);
       if (!origin) return callback(null, true);
       if (allowedOrigins.indexOf(origin) === -1) {
-        const msg = "The CORS policy for this site does not allow access from the specified Origin.";
-        return callback(null, true);
+        const msg = `The CORS policy for this site does not allow access from the specified Origin: ${origin}`;
+        return callback(new Error(msg), false);
       }
       return callback(null, true);
     },
+    credentials: true,
   })
 );
 
@@ -123,9 +137,16 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 app.use("/uploads", express.static("uploads")); // Serve uploaded images
 
+// health check endpoints (used by DigitalOcean App Platform health checks)
+app.get("/", (req, res) => {
+  res.status(200).json({ status: "ok", service: "qsc-api" });
+});
+app.get("/health", (req, res) => {
+  res.status(200).json({ status: "ok" });
+});
+
 // mount routers
 app.use("/api/v1/auth", auth);
-
 app.use("/api/v1/user", user);
 app.use("/api/v1/user-type", userType);
 app.use("/api/v1/menu", menu);
