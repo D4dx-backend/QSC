@@ -102,16 +102,6 @@ const CustomForm = (props) => {
       add: true,
     },
     {
-      type: "textarea",
-      placeholder: "Religious Educational Qualification",
-      name: "religiousEducationalQualification",
-      validation: "",
-      default: "",
-      label: "Religious Educational Qualification",
-      required: true,
-      add: true,
-    },
-    {
       type: "select",
       apiType: "API",
       selectApi: "exam-type/select",
