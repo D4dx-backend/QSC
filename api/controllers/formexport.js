@@ -17,7 +17,7 @@ exports.selectAndExport = async (req, res) => {
       .populate("nameOfExamAppearingNow", "examType") // Populating area field with only the title
       .populate("CenterRegistration", "nameOfCenter") // Populating area field with only the title
       .populate("examCenter", "centerName") // Populating area field with only the title
-      .select("-_id district area nameOfApplicant address pincode age mobileNumber educationalQualification religiousEducationalQualification feeDetails nameOfExamAppearingNow status CenterRegistration examCenter affiliation whatsappNumber ");
+      .select("-_id district area nameOfApplicant address pincode age mobileNumber educationalQualification feeDetails nameOfExamAppearingNow status CenterRegistration examCenter affiliation whatsappNumber ");
 
     // Transform the response to replace IDs with titles
     const transformedItems = items.map((item) => {
@@ -33,7 +33,7 @@ exports.selectAndExport = async (req, res) => {
     });
 
     // Convert transformedItems to CSV
-    const csvFields = ["district", "area", "nameOfApplicant", "address", "pincode", "age", "mobileNumber", "educationalQualification", "religiousEducationalQualification", "feeDetails", "nameOfExamAppearingNow", "status", "CenterRegistration", "examCenter", "affiliation", "whatsappNumber"];
+    const csvFields = ["district", "area", "nameOfApplicant", "address", "pincode", "age", "mobileNumber", "educationalQualification", "feeDetails", "nameOfExamAppearingNow", "status", "CenterRegistration", "examCenter", "affiliation", "whatsappNumber"];
     const json2csvParser = new Parser({ fields: csvFields });
     const csv = json2csvParser.parse(transformedItems);
 

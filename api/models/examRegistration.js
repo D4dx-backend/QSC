@@ -29,9 +29,6 @@ const ExamRegistrationSchema = new mongoose.Schema(
     educationalQualification: {
       type: String,
     },
-    religiousEducationalQualification: {
-      type: String,
-    },
     feeDetails: {
       type: Number,
     },

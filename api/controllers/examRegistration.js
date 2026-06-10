@@ -8,7 +8,7 @@ const fs = require("fs");
 const ExamCenterRegistration = require("../models/examCenterRegistration");
 const ExamType = require("../models/examtype");
 const CertificateManagement = require("../models/certificateManagement");
-const { nextRegNo, nextRegNoByDistrictArea } = require("../utils/regno");
+
 const ExamSettings = require("../models/examSettings");
 const { recomputeAllocation } = require("./examAllocation");
 
@@ -28,7 +28,7 @@ const s3 = new S3Client({
 // const isEnglishText = (text) => /^[\x00-\x7F\s]+$/.test(text);
 exports.addExamRegistration = async (req, res) => {
   try {
-    const { regno, mobileNumber, nameOfApplicant, address, educationalQualification, religiousEducationalQualification, age } = req.body;
+    const { regno, mobileNumber, nameOfApplicant, address, educationalQualification, age } = req.body;
     console.log(req.body);
     // Normalize mobile number by removing spaces and trimming
     const normalizedMobileNumber = Number(String(mobileNumber).replace(/\s+/g, "").trim());
@@ -48,10 +48,6 @@ exports.addExamRegistration = async (req, res) => {
 
     if (containsMalayalam(educationalQualification)) {
       return res.status(400).json({ success: false, customMessage: "The educational qualification should be typed in English only. Malayalam or other non-English characters are not allowed." });
-    }
-
-    if (containsMalayalam(religiousEducationalQualification)) {
-      return res.status(400).json({ success: false, customMessage: "The religious educational qualification should be typed in English only. Malayalam or other non-English characters are not allowed." });
     }
 
     // Check for existing regno, mobileNumber, or nameOfApplicant in a single query
@@ -74,22 +70,6 @@ exports.addExamRegistration = async (req, res) => {
 
     // Create new exam registration if no conflicts are found
     const payload = { ...req.body, mobileNumber: normalizedMobileNumber };
-
-    // Auto-generate register number at submit time.
-    // Format: QSC{DIST4}{AREA4}{Seq4} — see utils/regno.js
-    // Generates when district and area are provided and no regno supplied by admin.
-    if (payload.district && payload.area && !payload.regno) {
-      try {
-        payload.regno = await nextRegNoByDistrictArea(payload.district, payload.area);
-      } catch (genErr) {
-        console.error("regno generation failed:", genErr.message);
-        return res.status(400).json({
-          success: false,
-          customMessage:
-            "Could not generate registration number. Please ensure district and area are selected.",
-        });
-      }
-    }
 
     // Phase 2.1/2.2: default assigned exam centre = the student's own study centre.
     // Clubbing / ≥threshold rule runs asynchronously after save (see below).
@@ -165,7 +145,7 @@ exports.getExamRegistration = async (req, res) => {
         .populate("centerRegistration")
         .populate("examDistrict")
         .populate("outsideExamCenter")
-        .select("nameOfApplicant examName examSyllabus district area nameOfExamAppearingNow examCenter centerRegistration examDistrict outsideExamCenter regno mobileNumber address educationalQualification religiousEducationalQualification affiliation whatsappNumber gender outsideCenter status feeDetails age")
+        .select("nameOfApplicant examName examSyllabus district area nameOfExamAppearingNow examCenter centerRegistration examDistrict outsideExamCenter regno mobileNumber address educationalQualification affiliation whatsappNumber gender outsideCenter status feeDetails age")
         .skip(parseInt(skip) || 0)
         .limit(parseInt(limit) || 0)
         .sort({ _id: -1 }),
@@ -874,7 +854,7 @@ exports.getOutsideExamAttendanceSheet = async (req, res) => {
       .populate("nameOfExamAppearingNow", "examType")
       .populate("area", "area")
       .populate("centerRegistration", "nameOfCenter")
-      .select("nameOfApplicant regno mobileNumber address educationalQualification religiousEducationalQualification affiliation whatsappNumber gender outsideCenter status feeDetails age district examDistrict outsideExamCenter nameOfExamAppearingNow area centerRegistration")
+      .select("nameOfApplicant regno mobileNumber address educationalQualification affiliation whatsappNumber gender outsideCenter status feeDetails age district examDistrict outsideExamCenter nameOfExamAppearingNow area centerRegistration")
       .skip(parseInt(skip))
       .limit(parseInt(limit))
       .sort({ "outsideExamCenter.centerName": 1, nameOfApplicant: 1 });
@@ -898,7 +878,6 @@ exports.getOutsideExamAttendanceSheet = async (req, res) => {
       mobileNumber: student.mobileNumber,
       address: student.address,
       educationalQualification: student.educationalQualification,
-      religiousEducationalQualification: student.religiousEducationalQualification,
       affiliation: student.affiliation,
       whatsappNumber: student.whatsappNumber,
       gender: student.gender,
