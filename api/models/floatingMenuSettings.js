@@ -114,7 +114,7 @@ const FloatingSettingsSchema = new mongoose.Schema(
       },
       heroStoryTitle: {
         type: String,
-        default: "Students use the public side. Admins keep it current.",
+        default: "QSC പരീക്ഷാ ഫീസ് അടക്കാനുള്ള QR കോഡ്",
         trim: true,
       },
       heroStoryDescription: {

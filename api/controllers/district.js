@@ -205,7 +205,7 @@ exports.deleteDistrict = async (req, res) => {
 // @access    protect
 exports.select = async (req, res) => {
   try {
-    const items = await District.find(req.filter || {}, { _id: 0, id: "$_id", value: "$district" });
+    const items = await District.find(req.filter || {}, { _id: 0, id: "$_id", value: "$district" }).sort({ district: 1 });
     return res.status(200).send(items);
   } catch (err) {
     console.log(err);

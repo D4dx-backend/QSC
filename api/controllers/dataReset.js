@@ -68,7 +68,7 @@ const DATASETS = {
     model: Appointment,
   },
   oldQuestionPapers: {
-    label: "Old Question Papers",
+    label: "Question Bank",
     description: "Uploaded question paper archive.",
     model: OldQuestionPapers,
   },

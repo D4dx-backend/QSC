@@ -240,7 +240,7 @@ exports.getAreaByDistrict = async (req, res) => {
     if (!mongoose.isValidObjectId(req.query.district)) {
       return res.status(200).json([]);
     }
-    const items = await Area.find({ district: req.query.district ?? "" }, { _id: 0, id: "$_id", value: "$area" }).populate("district");
+    const items = await Area.find({ district: req.query.district ?? "" }, { _id: 0, id: "$_id", value: "$area" }).sort({ area: 1 }).populate("district");
     res.status(200).json(items);
   } catch (err) {
     console.log(err);

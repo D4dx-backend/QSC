@@ -7,7 +7,7 @@ import { Container } from "../../../core/layout/styels";
 const OldQuestionPaper = (props) => {
   //to update the page title
   useEffect(() => {
-    document.title = `Old Question Paper - QSC Automation`;
+    document.title = `Question Bank - QSC Automation`;
   }, []);
 
   const [attributes] = useState([
@@ -66,7 +66,7 @@ const OldQuestionPaper = (props) => {
           type: "text",
           collection: "",
         }}
-        shortName={`Old Question Paper`}
+        shortName={`Question Bank`}
         formMode={`single`}
         surfaceTheme={"district"}
         {...props}
