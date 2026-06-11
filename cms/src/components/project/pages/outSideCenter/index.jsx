@@ -146,6 +146,13 @@ const ExamCenterRegistration = (props) => {
       customClass: "full",
     },
     {
+      type: "info",
+      content: "താങ്കൾ എഴുതുന്ന പരീക്ഷയുടെ പേര് തെരഞ്ഞെടുക്കുക",
+      add: true,
+      update: true,
+      export: false,
+    },
+    {
       type: "select",
       apiType: "API",
       selectApi: "district/select",
@@ -306,7 +313,7 @@ const ExamCenterRegistration = (props) => {
       name: "feeDetails",
       validation: "",
       default: "",
-      info: "Regular വിഭാഗത്തിന് 100 രൂപയും Private വിഭാഗത്തിന് 150 രൂപയുമാണ് രജിസ്ട്രേഷൻ ഫീസ്. തുക 7994162608 നമ്പറിൽ ഗൂഗിൾ പേ ചെയ്യുക. ഏത് നമ്പറിൽ നിന്നാണോ ഗൂഗിൾ പേ ചെയ്തത്, ആ നമ്പർ ഇവിടെ നൽകുക.",
+      info: "രജിസ്ട്രേഷൻ അറിയിപ്പിൻ്റെ കൂടെയുള്ള പോസ്റ്ററിലെ QR കോഡിലേക്ക് പരീക്ഷാ ഫീസ് 100 രൂപ അയക്കുക. ഏത് നമ്പറിൽ നിന്നാണോ അയച്ചത് പ്രസ്തുത നമ്പർ ഇവിടെ നൽകുക.(ഒരു നമ്പറിൽ നിന്ന് ഒരുമിച്ച് അയക്കുന്നവർ എല്ലാവരും പ്രസ്തുത നമ്പർ ആണ് കൊടുക്കേണ്ടത്)",
       label: "Gpay Number",
       required: true,
       add: false,

@@ -120,6 +120,13 @@ const CustomForm = (props) => {
       filter: true,
     },
     {
+      type: "info",
+      content: "താങ്കൾ എഴുതുന്ന പരീക്ഷയുടെ പേര് തെരഞ്ഞെടുക്കുക",
+      add: true,
+      update: true,
+      export: false,
+    },
+    {
       type: "select",
       apiType: "API",
       selectApi: "center-registration/select",
