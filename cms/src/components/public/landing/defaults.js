@@ -11,7 +11,7 @@ export const LANDING_MENU_DEFAULTS = {
 export const LANDING_COPY_DEFAULTS = {
   heroEyebrow: "QSC Kerala public portal",
   heroStoryBadge: "Simple by design",
-  heroStoryTitle: "Students use the public side. Admins keep it current.",
+  heroStoryTitle: "QSC പരീക്ഷാ ഫീസ് അടക്കാനുള്ള QR കോഡ്",
   heroStoryDescription:
     "The public page stays clean while all public-facing numbers and messaging remain editable from the admin side.",
   quickAccessKicker: "Quick access",
